@@ -1,0 +1,207 @@
+/**
+ * Wallet Signature Indicator Styles
+ * Lightweight, performant CSS-only animations with 3D-like effects
+ */
+
+.wallet-signature-indicator {
+  /* Fixed positioning - bottom-right corner */
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  
+  /* Non-blocking - pointer events pass through */
+  pointer-events: none;
+  
+  /* Flexbox for alignment */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  /* Smooth entrance/exit */
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  
+  /* Prevent layout shifts */
+  will-change: opacity, transform;
+}
+
+.wallet-signature-indicator.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Orb container for positioning */
+.orb-container {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+/* Main orb with 3D-like gradient */
+.orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  
+  /* Hyper Violet gradient for 3D effect */
+  background: radial-gradient(
+    circle at 30% 30%,
+    #a78bfa 0%,
+    #8b5cf6 40%,
+    #7c3aed 70%,
+    #6d28d9 100%
+  );
+  
+  /* Subtle shadow for depth */
+  box-shadow: 
+    0 4px 12px rgba(139, 92, 246, 0.4),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 2px 8px rgba(255, 255, 255, 0.2);
+  
+  /* Breathing animation */
+  animation: breathe 2.5s ease-in-out infinite;
+}
+
+/* Inner highlight for 3D effect */
+.orb-inner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* Soft glow effect */
+.orb-glow {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.6) 0%,
+    rgba(139, 92, 246, 0.3) 40%,
+    transparent 70%
+  );
+  filter: blur(12px);
+  opacity: 0.8;
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+/* Status text styling */
+.status-text {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(139, 92, 246, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  
+  /* Low contrast ghost-style */
+  opacity: 0.85;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .status-text {
+    color: rgba(167, 139, 250, 0.95);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .orb {
+    box-shadow: 
+      0 4px 16px rgba(139, 92, 246, 0.6),
+      inset 0 -2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 2px 8px rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Breathing animation - scale up and down */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Glow pulse animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .wallet-signature-indicator {
+    transition: opacity 0.1s linear;
+    transform: none;
+  }
+  
+  .wallet-signature-indicator.visible {
+    transform: none;
+  }
+  
+  .orb,
+  .orb-glow {
+    animation: none;
+  }
+  
+  /* Static state for reduced motion */
+  .orb {
+    transform: scale(1);
+  }
+  
+  .orb-glow {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .wallet-signature-indicator {
+    bottom: 16px;
+    right: 16px;
+    gap: 10px;
+  }
+  
+  .orb-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .status-text {
+    font-size: 12px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .status-text {
+    opacity: 1;
+    font-weight: 600;
+  }
+  
+  .orb {
+    border: 2px solid currentColor;
+  }
+}

@@ -7,6 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:wallet-indicator": "vitest WalletSignatureIndicator",
     "benchmark": "node benchmarks/api.bench.mjs",
     "benchmark:save-baseline": "SAVE_BASELINE=true node benchmarks/api.bench.mjs",
     "test:benchmarks": "node --test benchmarks/api.bench.test.mjs"
